@@ -6,11 +6,19 @@
   <meta name="theme-color" content="#0B5FFF" />
   <title>Mentor Chess</title>
 
-  <!-- PWA -->
+  <!-- PWA (vamos criar depois, se quiser) -->
   <link rel="manifest" href="pwa/manifest.json" />
 
-  <!-- Estilos -->
+  <!-- Estilos do app -->
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Chessground (tabuleiro + peças + animações estilo Lichess/Lotus) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessground@9/assets/chessground.base.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessground@9/assets/chessground.brown.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessground@9/assets/chessground.coordinates.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessground@9/assets/chessground.cburnett.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chessground@9/dist/chessground.min.js"></script>
 </head>
 <body>
 
@@ -33,9 +41,7 @@
 
   <!-- CONTEÚDO -->
   <main class="container">
-    <section id="view">
-      <!-- As telas entram aqui via JS -->
-    </section>
+    <section id="view"></section>
   </main>
 
   <!-- MENU INFERIOR -->
@@ -47,8 +53,7 @@
     <button class="tab" data-tab="analise">Análise</button>
   </nav>
 
-  <!-- SCRIPT PRINCIPAL -->
+  <!-- APP -->
   <script type="module" src="app.js"></script>
-
 </body>
 </html>
