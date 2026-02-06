@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0B5FFF" />
+  <title>Mentor Chess</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="pwa/manifest.json" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- TOPO -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">♟️</div>
+      <div>
+        <div class="title">Mentor Chess</div>
+        <div class="subtitle" id="subtitle">
+          Treino rápido • 5 min/dia
+        </div>
+      </div>
+    </div>
+
+    <button class="ghost" id="btnSwitchUser">
+      Trocar usuário
+    </button>
+  </header>
+
+  <!-- CONTEÚDO -->
+  <main class="container">
+    <section id="view">
+      <!-- As telas entram aqui via JS -->
+    </section>
+  </main>
+
+  <!-- MENU INFERIOR -->
+  <nav class="bottomnav">
+    <button class="tab active" data-tab="home">Início</button>
+    <button class="tab" data-tab="flashcards">Flashcards</button>
+    <button class="tab" data-tab="drill">Drill</button>
+    <button class="tab" data-tab="partidas">Partidas</button>
+    <button class="tab" data-tab="analise">Análise</button>
+  </nav>
+
+  <!-- SCRIPT PRINCIPAL -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
