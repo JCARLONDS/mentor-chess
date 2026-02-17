@@ -1,88 +1,95 @@
-import { FLASHCARDS } from "../data/flashcards.js";
+window.UI_FLASHCARDS = (() => {
 
-export function renderFlashcards(root, username) {
-  let index = 0;
-  let flipped = false;
+  function toast(msg){
+    let t = document.querySelector(".toast");
+    if(!t){
+      t = document.createElement("div");
+      t.className = "toast";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 1400);
+  }
 
-  function render() {
-    const card = FLASHCARDS[index];
+  function getOpening(openingId){
+    const all = window.FLASHCARDS || [];
+    if(openingId) return all.find(o => o.id === openingId) || all[0];
+    return all[0];
+  }
 
-    root.innerHTML = `
-      <div class="card">
-        <div class="h1">Flashcards</div>
-        <p class="p">Pense primeiro, depois vire. Treino rápido.</p>
+  function render(container){
+    const user = DB.getActiveUser();
+    if(!user){ window.router.go("login"); return; }
 
-        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-          <span class="badge">📇 ${index + 1}/${FLASHCARDS.length}</span>
-          <span class="badge">🏷️ ${card.theme}</span>
+    const openingId = window.router.params?.openingId;
+    const o = getOpening(openingId);
+
+    container.innerHTML = `
+      <div class="topbar">
+        <div class="brand" style="font-size:26px">${o.title}</div>
+        <div class="top-icons">
+          <div class="iconbtn" id="back" title="Voltar">←</div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="h1">${flipped ? "Verso" : "Frente"}</div>
-
-        <p class="p"><b>Pergunta:</b> ${card.question}</p>
-
-        <hr style="border:none;border-top:1px solid #E6ECF5;margin:12px 0" />
-
-        ${
-          flipped
-            ? `
-              <p class="p">${card.explanation}</p>
-
-              <div style="margin-top:10px">
-                <span class="badge">🧠 ${card.anchor}</span>
-              </div>
-
-              <hr style="border:none;border-top:1px solid #E6ECF5;margin:12px 0" />
-
-              <div class="h1" style="font-size:15px">Transposições</div>
-              <ul class="p" style="margin:6px 0 0 18px">
-                ${(card.transpositions || []).map(t => `<li>${t}</li>`).join("")}
-              </ul>
-            `
-            : `
-              <p class="p" style="font-size:12px">
-                Dica: responda mentalmente antes de virar.
-              </p>
-            `
-        }
+      <div class="board-card">
+        <div id="flashBoard"></div>
+        <div class="note">${o.focus || ""}</div>
       </div>
 
-      <div style="display:flex;gap:10px">
-        <button class="btn" id="prev"
-          style="flex:1;background:#EAF1FF;color:#0B5FFF;border:1px solid #E6ECF5">
-          ◀
-        </button>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;">
+          <button class="btn" id="prev">‹</button>
+          <div style="text-align:center;">
+            <div style="font-weight:900">Passo <span id="stepN">1</span> / <span id="stepT">${o.moves.length}</span></div>
+            <div class="note" id="explain"></div>
+          </div>
+          <button class="btn" id="next">›</button>
+        </div>
 
-        <button class="btn" id="flip" style="flex:2">
-          ${flipped ? "Voltar" : "Virar"}
-        </button>
-
-        <button class="btn" id="next"
-          style="flex:1;background:#EAF1FF;color:#0B5FFF;border:1px solid #E6ECF5">
-          ▶
-        </button>
+        <div style="height:12px"></div>
+        <button class="btn orange" id="train">Treinar (Drill)</button>
       </div>
     `;
 
-    root.querySelector("#flip").onclick = () => {
-      flipped = !flipped;
-      render();
+    container.querySelector("#back").onclick = () => window.router.go("home");
+
+    const game = new Chess();
+    let idx = 0;
+
+    const board = Chessboard("flashBoard", {
+      draggable: false,
+      position: "start",
+      moveSpeed: 260,
+      showNotation: false,
+      pieceTheme: "https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png"
+    });
+
+    function applyTo(i){
+      game.reset();
+      for(let k=0;k<=i;k++){
+        const san = o.moves[k]?.san;
+        if(!san) continue;
+        try{ game.move(san); }catch(e){}
+      }
+      board.position(game.fen());
+      container.querySelector("#stepN").textContent = String(i+1);
+      container.querySelector("#explain").textContent = (o.moves[i]?.explain || "");
+    }
+
+    function clamp(n){ return Math.max(0, Math.min(o.moves.length-1, n)); }
+
+    container.querySelector("#prev").onclick = () => { idx = clamp(idx-1); applyTo(idx); };
+    container.querySelector("#next").onclick = () => { idx = clamp(idx+1); applyTo(idx); };
+
+    container.querySelector("#train").onclick = () => {
+      toast("Abrindo Drill…");
+      window.router.go("drill", { openingId: o.id });
     };
 
-    root.querySelector("#prev").onclick = () => {
-      index = (index - 1 + FLASHCARDS.length) % FLASHCARDS.length;
-      flipped = false;
-      render();
-    };
-
-    root.querySelector("#next").onclick = () => {
-      index = (index + 1) % FLASHCARDS.length;
-      flipped = false;
-      render();
-    };
+    applyTo(idx);
   }
 
-  render();
-}
+  return { render };
+})();
