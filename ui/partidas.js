@@ -3,6 +3,12 @@ window.UI_PARTIDAS = (() => {
     const user = DB.getActiveUser();
     if(!user){ window.router.go("login"); return; }
 
+    const fens = [
+      "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 3",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 2 3"
+    ];
+
     container.innerHTML = `
       <div class="topbar">
         <div class="brand" style="font-size:26px">Partidas</div>
@@ -17,7 +23,7 @@ window.UI_PARTIDAS = (() => {
       </div>
 
       <div class="card" style="display:flex; gap:12px; align-items:center;">
-        <div class="mini-board" style="width:92px; aspect-ratio:1/1;"></div>
+        <div class="mini-board" id="match-0" style="width:92px; aspect-ratio:1/1;"></div>
         <div style="flex:1">
           <div style="font-weight:900">BHFPlanet</div>
           <div class="note">Vitória • analisado • 29 minutos</div>
@@ -26,7 +32,7 @@ window.UI_PARTIDAS = (() => {
       </div>
 
       <div class="card" style="display:flex; gap:12px; align-items:center;">
-        <div class="mini-board" style="width:92px; aspect-ratio:1/1;"></div>
+        <div class="mini-board" id="match-1" style="width:92px; aspect-ratio:1/1;"></div>
         <div style="flex:1">
           <div style="font-weight:900">Eloc431</div>
           <div class="note">Vitória • 2 horas</div>
@@ -35,7 +41,7 @@ window.UI_PARTIDAS = (() => {
       </div>
 
       <div class="card" style="display:flex; gap:12px; align-items:center;">
-        <div class="mini-board" style="width:92px; aspect-ratio:1/1;"></div>
+        <div class="mini-board" id="match-2" style="width:92px; aspect-ratio:1/1;"></div>
         <div style="flex:1">
           <div style="font-weight:900">jyferreira22</div>
           <div class="note">Derrota • 10 horas</div>
@@ -43,6 +49,16 @@ window.UI_PARTIDAS = (() => {
         <div style="color:var(--red); font-weight:900">Derrota</div>
       </div>
     `;
+
+    // Mini tabuleiros (estáticos)
+    fens.forEach((fen, idx) => {
+      Chessboard(`match-${idx}`, {
+        draggable: false,
+        position: fen,
+        showNotation: false,
+        pieceTheme: window.pieceTheme
+      });
+    });
   }
   return { render };
 })();

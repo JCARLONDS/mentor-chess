@@ -63,7 +63,7 @@ window.UI_FLASHCARDS = (() => {
       position: "start",
       moveSpeed: 260,
       showNotation: false,
-      pieceTheme: "https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png"
+      pieceTheme: window.pieceTheme
     });
 
     function applyTo(i){

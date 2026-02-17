@@ -76,7 +76,7 @@ window.UI_PUZZLES = (() => {
       snapbackSpeed: 220,
       snapSpeed: 120,
       showNotation: false,
-      pieceTheme: "https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png"
+      pieceTheme: window.pieceTheme
     });
 
     const boardEl = document.getElementById("puzzleBoard");

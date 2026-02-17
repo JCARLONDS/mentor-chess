@@ -27,6 +27,18 @@ window.UI_ANALISE = (() => {
       </div>
 
       <div class="card">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <div>
+            <div style="font-weight:900">Seu tabuleiro</div>
+            <div class="note">Visual rápido (clássico branco/marrom)</div>
+          </div>
+          <div style="opacity:.8">♟️</div>
+        </div>
+        <div style="height:12px"></div>
+        <div id="stats-board" style="width:100%; max-width:320px; margin:0 auto; aspect-ratio:1/1; border-radius:16px; overflow:hidden;"></div>
+      </div>
+
+      <div class="card">
         <div class="row">
           <div class="kpi">
             <strong>${rating}</strong>
@@ -55,6 +67,14 @@ window.UI_ANALISE = (() => {
         <div class="note">• Resolver 5 puzzles<br/>• Completar 3 drills<br/>• Manter streak</div>
       </div>
     `;
+
+    // Tabuleiro estático
+    Chessboard('stats-board', {
+      draggable: false,
+      position: 'start',
+      showNotation: false,
+      pieceTheme: window.pieceTheme
+    });
   }
   return { render };
 })();

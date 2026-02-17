@@ -17,12 +17,12 @@ window.UI_HOME = (() => {
   }
 
   function renderMiniBoard(elId, fen){
-    // pieceTheme via CDN to avoid missing pieces on GitHub Pages
+    // Use inline SVG pieceTheme (defined in app.js) to avoid broken images/offline issues
     Chessboard(elId, {
       draggable: false,
       position: fen || "start",
       showNotation: false,
-      pieceTheme: "https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png"
+      pieceTheme: window.pieceTheme
     });
   }
 
