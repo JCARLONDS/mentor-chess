@@ -1,51 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Mentor Chess</title>
 
-  <!-- Chessboard -->
-  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/www/css/chessboard.css"/>
-
-  <link rel="stylesheet" href="styles.css"/>
+  <!-- Chessboard.js (CSS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <div id="app"></div>
 
-<header class="top-bar">
-  <h1>♟️ Mentor Chess</h1>
-  <div class="streak">🔥 1</div>
-</header>
+  <!-- Libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
 
-<section class="card treino">
-  <h2>Treino de hoje</h2>
-  <p>Constância vence talento. Hoje só <strong>5 minutos</strong>.</p>
-  <div class="progress">
-    <div class="bar"></div>
-  </div>
-</section>
+  <!-- Data + DB -->
+  <script src="./data/flashcards.js"></script>
+  <script src="./db/storage.js"></script>
 
-<section class="board-card">
-  <div id="board"></div>
-</section>
+  <!-- UI screens -->
+  <script src="./ui/login.js"></script>
+  <script src="./ui/home.js"></script>
+  <script src="./ui/flashcards.js"></script>
+  <script src="./ui/drill.js"></script>
+  <script src="./ui/puzzles.js"></script>
+  <script src="./ui/partidas.js"></script>
+  <script src="./ui/analise.js"></script>
 
-<section class="card actions">
-  <button class="btn primary">Começar treino</button>
-  <div class="shortcuts">
-    <button class="btn">Flashcards</button>
-    <button class="btn">Drill</button>
-  </div>
-</section>
-
-<nav class="bottom-nav">
-  <span class="active">🏠 Início</span>
-  <span>🧠 Flashcards</span>
-  <span>🎯 Drill</span>
-  <span>📊 Análise</span>
-</nav>
-
-<script src="https://unpkg.com/chess.js@1.0.0/chess.js"></script>
-<script src="https://unpkg.com/chessboardjs@1.0.0/www/js/chessboard.js"></script>
-<script src="app.js"></script>
+  <!-- App router -->
+  <script src="./app.js"></script>
 </body>
 </html>
