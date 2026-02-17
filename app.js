@@ -1,3 +1,41 @@
+
+// --- Piece theme (inline SVG) so GitHub Pages works without external image assets ---
+(function(){
+  const svgFor = (piece) => {
+    const isWhite = piece[0] === "w";
+    const p = piece[1];
+    const glyph = ({
+      K:"♔", Q:"♕", R:"♖", B:"♗", N:"♘", P:"♙",
+    })[p] || "?";
+    // For black pieces we use the black glyphs for better look if available:
+    const glyphBlack = ({
+      K:"♚", Q:"♛", R:"♜", B:"♝", N:"♞", P:"♟",
+    })[p] || glyph;
+    const text = isWhite ? glyph : glyphBlack;
+
+    const fill = isWhite ? "#ffffff" : "#111111";
+    const stroke = isWhite ? "#111111" : "none";
+    const strokeWidth = isWhite ? "1.5" : "0";
+    const shadow = "0 1px 1px rgba(0,0,0,.35)";
+
+    const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <defs>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="rgba(0,0,0,.35)"/>
+    </filter>
+  </defs>
+  <text x="30" y="40" text-anchor="middle" font-size="40" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" filter="url(#s)">${text}</text>
+</svg>`.trim();
+
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+  };
+
+  window.pieceTheme = (piece) => svgFor(piece);
+})();
+
+
 // ============ App / Router ============
 (function(){
   const app = document.getElementById("app");
