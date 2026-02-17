@@ -1,99 +1,85 @@
-const DB_NAME = "mentor_chess_db";
-const DB_VERSION = 1;
-const STORE = "kv";
+// ============ Simple Local DB (no server) ============
+window.DB = (() => {
+  const KEY = "mentor_chess_v1";
 
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
+  function _load(){
+    try{
+      return JSON.parse(localStorage.getItem(KEY)) || { users: {}, activeUser: null };
+    }catch(e){
+      return { users: {}, activeUser: null };
+    }
+  }
+  function _save(db){ localStorage.setItem(KEY, JSON.stringify(db)); }
 
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE);
-    };
+  function ensureUser(username){
+    const db = _load();
+    if(!db.users[username]){
+      db.users[username] = {
+        username,
+        createdAt: Date.now(),
+        stats: {
+          streak: 1,
+          xp: 0,
+          puzzlesRating: 700,
+          puzzlesSolved: 0,
+          guidedWins: 0,
+          gamesPlayed: 0
+        },
+        mastery: {}
+      };
+    }
+    db.activeUser = username;
+    _save(db);
+    return db.users[username];
+  }
 
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
+  function getActiveUser(){
+    const db = _load();
+    if(!db.activeUser) return null;
+    return db.users[db.activeUser] || null;
+  }
 
-async function get(key) {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readonly");
-    const st = tx.objectStore(STORE);
-    const r = st.get(key);
-    r.onsuccess = () => resolve(r.result ?? null);
-    r.onerror = () => reject(r.error);
-  });
-}
+  function setActiveUser(username){
+    const db = _load();
+    db.activeUser = username;
+    if(!db.users[username]) db.users[username] = ensureUser(username);
+    _save(db);
+  }
 
-async function set(key, val) {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readwrite");
-    const st = tx.objectStore(STORE);
-    const r = st.put(val, key);
-    r.onsuccess = () => resolve(true);
-    r.onerror = () => reject(r.error);
-  });
-}
+  function updateUser(mutator){
+    const db = _load();
+    const u = (db.activeUser && db.users[db.activeUser]) ? db.users[db.activeUser] : null;
+    if(!u) return;
+    // normalize
+    u.stats = u.stats || {};
+    u.mastery = u.mastery || {};
+    mutator(u);
+    db.users[db.activeUser] = u;
+    _save(db);
+  }
 
-// -------------------
-// Usuário atual
-// -------------------
-export async function getCurrentUser() {
-  return await get("currentUser");
-}
+  function awardXP(amount, bucket){
+    updateUser(u => {
+      u.stats.xp = (u.stats.xp || 0) + amount;
+      if(bucket){
+        u.mastery[bucket] = (u.mastery[bucket] || 0) + amount;
+      }
+    });
+  }
 
-export async function setCurrentUser(username) {
-  return await set("currentUser", username);
-}
+  function getRankName(xp){
+    if(xp >= 1200) return "Mestre";
+    if(xp >= 700) return "Avançado";
+    if(xp >= 300) return "Intermediário";
+    return "Iniciante";
+  }
 
-export async function resetCurrentUser() {
-  return await set("currentUser", null);
-}
-
-// -------------------
-// Perfil por usuário
-// -------------------
-export async function ensureProfile(username) {
-  const key = `profile:${username}`;
-  const existing = await get(key);
-  if (existing) return existing;
-
-  const profile = {
-    username,
-    createdAt: Date.now(),
-    lastLogin: Date.now(),
-
-    // Treino diário
-    streak: 0,
-    lastTrainDay: null,
-
-    // Futuro: repetição espaçada (flashcards)
-    flashcardState: {},
-
-    // Futuro: stats de drills
-    drillStats: {},
-
-    // Futuro: partidas importadas do chess.com
-    games: []
+  return {
+    ensureUser,
+    getActiveUser,
+    setActiveUser,
+    updateUser,
+    awardXP,
+    getRankName
   };
-
-  await set(key, profile);
-  return profile;
-}
-
-export async function loadProfile(username) {
-  const p = await get(`profile:${username}`);
-  if (!p) return ensureProfile(username);
-
-  p.lastLogin = Date.now();
-  await set(`profile:${username}`, p);
-  return p;
-}
-
-export async function saveProfile(username, profile) {
-  await set(`profile:${username}`, profile);
-  return true;
-}
+})();
