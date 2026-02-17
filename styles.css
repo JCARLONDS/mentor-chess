@@ -8,8 +8,8 @@
   --muted:#91a4b6;
   --line:#23313c;
 
-  --orange:#ff8a00;
-  --orange2:#ff6a00;
+  --orange:#1e88ff;
+  --orange2:#00b3ff;
   --green:#2ecc71;
   --red:#ff5252;
 
@@ -344,3 +344,9 @@ button, a, .clickable{ -webkit-tap-highlight-color: transparent; }
 }
 .square-55d63.hl-pulse{ animation: pulseRing .85s ease-out 1; }
 .square-55d63.hl-last{ background: rgba(255,255,255,.08) !important; }
+
+
+/* Chessboard.js classic colors */
+.white-1e1d7 { background-color: #f0d9b5 !important; }
+.black-3c85d { background-color: #b58863 !important; }
+
