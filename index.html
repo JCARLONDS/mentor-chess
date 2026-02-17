@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentor Chess</title>
+
+  <!-- Chessboard -->
+  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/www/css/chessboard.css"/>
+
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<header class="top-bar">
+  <h1>♟️ Mentor Chess</h1>
+  <div class="streak">🔥 1</div>
+</header>
+
+<section class="card treino">
+  <h2>Treino de hoje</h2>
+  <p>Constância vence talento. Hoje só <strong>5 minutos</strong>.</p>
+  <div class="progress">
+    <div class="bar"></div>
+  </div>
+</section>
+
+<section class="board-card">
+  <div id="board"></div>
+</section>
+
+<section class="card actions">
+  <button class="btn primary">Começar treino</button>
+  <div class="shortcuts">
+    <button class="btn">Flashcards</button>
+    <button class="btn">Drill</button>
+  </div>
+</section>
+
+<nav class="bottom-nav">
+  <span class="active">🏠 Início</span>
+  <span>🧠 Flashcards</span>
+  <span>🎯 Drill</span>
+  <span>📊 Análise</span>
+</nav>
+
+<script src="https://unpkg.com/chess.js@1.0.0/chess.js"></script>
+<script src="https://unpkg.com/chessboardjs@1.0.0/www/js/chessboard.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
