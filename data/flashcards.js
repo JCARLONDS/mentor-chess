@@ -1,64 +1,69 @@
-export const FLASHCARDS = [
+// ============ Flashcards / Openings Data ============
+window.FLASHCARDS = [
   {
-    id: 1,
-    theme: "Centro",
-    question: "O que deve ser priorizado nesta posição?",
-    explanation:
-      "O centro define onde o jogo vai acontecer. Desenvolver peças e controlar o centro com elas cria base para qualquer plano futuro.",
-    anchor: "Controle o centro com peças.",
-    transpositions: [
-      "e4 e5 Cf3 Cc6",
-      "d4 d5 Cf3 e6",
-      "ordens diferentes levam à mesma estrutura"
+    id: "italian_white",
+    side: "white",
+    title: "Italian Game",
+    fenPreview: "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 3",
+    focus: "Ative o bispo e ataque f7.",
+    moves: [
+      { san: "e4", explain: "Controle do centro e abre linhas." },
+      { san: "e5", explain: "Resposta simétrica." },
+      { san: "Nf3", explain: "Desenvolve e ataca e5." },
+      { san: "Nc6", explain: "Defende e desenvolve." },
+      { san: "Bc4", explain: "Mira f7." }
     ]
   },
   {
-    id: 2,
-    theme: "Dama cedo demais",
-    question: "Por que sair com a dama cedo costuma ser ruim?",
-    explanation:
-      "A dama vira alvo. O adversário ganha tempo atacando a dama enquanto desenvolve suas peças.",
-    anchor: "Quem desenvolve ganha tempo.",
-    transpositions: [
-      "Mate do Pastor",
-      "ataques improvisados de iniciantes"
+    id: "scandi_black",
+    side: "black",
+    title: "Scandinavian Defense",
+    fenPreview: "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    focus: "Contra-ataque no centro.",
+    moves: [
+      { san: "e4", explain: "" },
+      { san: "d5", explain: "Ataca o peão central." },
+      { san: "exd5", explain: "" },
+      { san: "Qxd5", explain: "Recaptura rapidamente." }
     ]
   },
   {
-    id: 3,
-    theme: "Rei seguro",
-    question: "Qual é o próximo passo lógico aqui?",
-    explanation:
-      "Rocar protege o rei e conecta as torres. Sem rei seguro, qualquer ataque é frágil.",
-    anchor: "Sem rei seguro, não existe ataque.",
-    transpositions: [
-      "e4",
-      "d4",
-      "posições híbridas"
+    id: "sicilian_black",
+    side: "black",
+    title: "Sicilian Defense",
+    fenPreview: "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    focus: "Jogo desequilibrado e iniciativa.",
+    moves: [
+      { san: "e4", explain: "" },
+      { san: "c5", explain: "Ataca d4 e cria assimetria." }
     ]
   },
   {
-    id: 4,
-    theme: "Peões avançados cedo",
-    question: "Qual é o principal problema desta posição?",
-    explanation:
-      "Peões avançaram sem apoio das peças. Isso cria fraquezas permanentes e limita o desenvolvimento.",
-    anchor: "Peões avançam quando as peças estão prontas.",
-    transpositions: [
-      "ataques improvisados",
-      "ordens caóticas de lances"
+    id: "vienna_white",
+    side: "white",
+    title: "Vienna Game",
+    fenPreview: "rnbqkbnr/pppp1ppp/8/4p3/4P3/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 2",
+    focus: "Pressão rápida no centro.",
+    moves: [
+      { san: "e4", explain: "" },
+      { san: "e5", explain: "" },
+      { san: "Nc3", explain: "Desenvolve e prepara f4." }
     ]
+  }
+];
+
+// Example puzzles
+window.PUZZLES = [
+  {
+    tema: "Capturar o defensor",
+    dica: "Procure uma tática simples.",
+    fen: "8/8/8/3k4/3P4/4K3/8/8 w - - 0 1",
+    solucaoSAN: ["d5"]
   },
   {
-    id: 5,
-    theme: "Cavalo na borda",
-    question: "Por que este cavalo está mal colocado?",
-    explanation:
-      "Na borda o cavalo controla poucas casas. No centro ele participa muito mais do jogo.",
-    anchor: "Cavalo na borda, tristeza garantida.",
-    transpositions: [
-      "respostas automáticas",
-      "tentativas de ataque precoce"
-    ]
+    tema: "Mate em 1",
+    dica: "Cheque-mate imediato.",
+    fen: "6k1/5ppp/8/8/8/6Q1/6PP/6K1 w - - 0 1",
+    solucaoSAN: ["Qa8#"]
   }
 ];
